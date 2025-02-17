@@ -1,0 +1,74 @@
+:host {
+  display: flex;
+  justify-content: flex-start;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 600px;
+    width: 100%;
+
+    &__container-input,
+    &__container-textarea {
+      position: relative;
+      display: flex;
+    }
+
+    &__input,
+    &__textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+
+    &__textarea {
+      resize: vertical;
+      min-height: 100px;
+      max-height: 200px;
+    }
+
+    &__input-label,
+    &__textarea-label {
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      transition: 0.2s ease all;
+      color: #000;
+      pointer-events: none;
+      font-size: 17px;
+    }
+
+    .wrapper__input:focus + .wrapper__input-label,
+    .wrapper__input:not(:placeholder-shown) + .wrapper__input-label,
+    .wrapper__textarea:focus + .wrapper__textarea-label,
+    .wrapper__textarea:not(:placeholder-shown) + .wrapper__textarea-label {
+      top: -27px;
+      left: 10px;
+      font-size: 20px;
+      color: #fff;
+    }
+
+    &__container-button {
+      display: flex;
+      justify-content: center;
+    }
+
+    &__button {
+      border: none;
+      background-color: #6500bd;
+      padding: 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 20px;
+      color: #fff;
+    }
+  }
+}

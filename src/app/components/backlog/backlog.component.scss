@@ -1,0 +1,42 @@
+:host {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 350px auto;
+    align-items: start;
+    gap: 20px;
+
+    &__tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &__task {
+      background-color: #27242f;
+      padding: 25px;
+      border-radius: 10px;
+
+      transition: 350ms;
+
+      &:hover {
+        transition: 350ms;
+        background-color: #302c39;
+      }
+      &--goCreateTaskLink {
+        position: relative;
+
+        &::before {
+          position: absolute;
+          content: "";
+          width: 100%;
+          height: 1px;
+          background-color: white;
+          bottom: -5px;
+        }
+      }
+    }
+  }
+  .active {
+    border: 1px solid slateblue;
+  }
+}

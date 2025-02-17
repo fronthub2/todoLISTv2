@@ -1,0 +1,48 @@
+:host {
+  .wrapper {
+    background-color: #27242f;
+    padding: 25px;
+    border-radius: 10px;
+    
+  }
+
+  .task-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .task-settings {
+    &__title {
+      margin: 20px 0;
+    }
+    &__buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    &__button {
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 20px;
+      max-width: 130px;
+      width: 100%;
+      padding: 10px;
+      cursor: pointer;
+
+      &--edit {
+        background-color: #6500bd;
+      }
+
+      &--delete {
+        background-color: rgb(195, 12, 12);
+      }
+    }
+
+    &__select {
+      padding: 10px;
+      border-radius: 10px;
+    }
+  }
+}

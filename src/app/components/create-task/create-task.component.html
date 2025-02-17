@@ -1,0 +1,30 @@
+<form class="wrapper" [formGroup]="form" (ngSubmit)="onAddTask()">
+  <div class="wrapper__container-input">
+    <input
+      class="wrapper__input"
+      type="text"
+      placeholder=""
+      formControlName="text"
+    />
+    <label class="wrapper__input-label">{{ labelTextInput }}</label>
+  </div>
+  <div class="wrapper__container-textarea">
+    <textarea
+      class="wrapper__textarea"
+      placeholder=""
+      formControlName="description"
+    ></textarea>
+    <label class="wrapper__textarea-label">{{ labelTextTextarea }}</label>
+  </div>
+  <div class="wrapper__container-button">
+    <button
+      class="wrapper__button"
+      type="submit"
+      [disabled]="form.invalid"
+      [style.opacity]="form.invalid ? '0.7' : '1'"
+      [matTooltip]="titleTooltip"
+    >
+      Add
+    </button>
+  </div>
+</form>

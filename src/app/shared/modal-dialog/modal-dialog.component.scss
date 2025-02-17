@@ -1,0 +1,34 @@
+:host {
+  .modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 20px;
+    background-color: slateblue;
+    width: 400px;
+    height: 200px;
+
+    &__title {
+      font-size: 20px;
+    }
+
+    &__actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    &__action {
+      background-color: transparent;
+      border: 1px solid cadetblue;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 20px;
+      max-width: 130px;
+      width: 100%;
+      padding: 10px;
+    }
+  }
+}

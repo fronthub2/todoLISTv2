@@ -1,0 +1,46 @@
+<div class="wrapper">
+  <div class="task-info">
+    <h4 class="task-info__title">Information:</h4>
+    <div class="task-info__item">
+      <span class="task-info__label">Text: </span>
+      {{ task.text | titlecase }}
+    </div>
+    <div class="task-info__item">
+      <span class="task-info__label">Description: </span>
+      {{ (task.description | titlecase) || "Не добавлено" }}
+    </div>
+    <div class="task-info__item">
+      <span class="task-info__label">Status: </span>
+      {{ task.status || "Paused" }}
+    </div>
+  </div>
+  <div class="task-settings">
+    <h4 class="task-settings__title">Setting:</h4>
+    <div class="task-settings__buttons">
+      <button
+        class="task-settings__button task-settings__button--edit"
+        matTooltip="Изменить"
+        (click)="onEditTask(task.id)"
+      >
+        Edit
+      </button>
+      <button
+        class="task-settings__button task-settings__button--delete"
+        matTooltip="Удалить"
+        (click)="onDeleteTask(task.id)"
+      >
+        Delete
+      </button>
+      <select
+        class="task-settings__select"
+        [(ngModel)]="valueSelect"
+        matTooltip="Изменить статус"
+        (change)="onChangeSelect()"
+      >
+        <option value="Paused">paused</option>
+        <option value="In progress">in progress</option>
+        <option value="Completed">completed</option>
+      </select>
+    </div>
+  </div>
+</div>

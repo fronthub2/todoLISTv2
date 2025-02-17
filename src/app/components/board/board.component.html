@@ -1,0 +1,27 @@
+<div class="task">
+  <h4 class="task__title">
+    TASKS
+    <span class="task__count">({{ tasks$.getValue().length }})</span>
+  </h4>
+  @for (task of tasks$ | async; track task; let index = $index) {
+  <app-task [titleTooltip]="'Перейти в настройки'" [count]="index" [title]="task.text" [id]="task.id"></app-task>
+  }
+</div>
+<div class="task">
+  <h4 class="task__title">
+    IN PROGRESS
+    <span class="task__count">({{ tasks_progress.length }})</span>
+  </h4>
+  @for (task of tasks_progress; track task; let index = $index) {
+  <app-task [titleTooltip]="'Перейти в настройки'" [count]="index" [title]="task.text" [id]="task.id"></app-task>
+  }
+</div>
+<div class="task">
+  <h4 class="task__title">
+    COMPLETED
+    <span class="task__count">({{ tasks_completed.length }})</span>
+  </h4>
+  @for (task of tasks_completed; track task; let index = $index) {
+  <app-task [titleTooltip]="'Перейти в настройки'" [count]="index" [title]="task.text" [id]="task.id"></app-task>
+  }
+</div>
