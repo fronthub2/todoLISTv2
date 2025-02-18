@@ -54,9 +54,6 @@ export class CreateTaskComponent implements DoCheck {
 
   onAddTask() {
     this.tasksService.addData(this.formValue);
-    this.tasksService
-      .getData()
-      .subscribe((v) => console.log('create-task(tasksService)>>>', v));
     this.tasksService.saveInLocalStorage(this.keyInLocalStorage);
     this.form.reset();
   }

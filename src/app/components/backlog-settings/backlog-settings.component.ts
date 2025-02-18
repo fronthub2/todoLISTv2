@@ -59,12 +59,11 @@ export class BacklogSettingsComponent implements OnInit {
     });
   }
 
-  onEditTask(task: ITask) {
-    console.log('task.text>>', task, task.text);
+  onEditTask() {
     this.isShowModalEditTask = true;
   }
 
-  isShow(value: boolean) {
+  onShowModalEditTask(value: boolean) {
     this.isShowModalEditTask = value;
   }
 }

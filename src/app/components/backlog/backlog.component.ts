@@ -29,7 +29,6 @@ export class BacklogComponent implements OnInit {
   ngOnInit(): void {
     this.tasks$.subscribe((task) => {
       this.tasks = task;
-      console.log('this.tasks in backlog', this.tasks);
     });
   }
 }
