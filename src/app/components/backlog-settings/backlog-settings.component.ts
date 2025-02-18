@@ -28,18 +28,17 @@ export class BacklogSettingsComponent implements OnInit {
   router = inject(Router);
   tasksService = inject(taskService);
 
-  task!: ITask;
+  task$!: BehaviorSubject<ITask>;
   idURL!: string;
   valueSelect: string = 'Paused';
   keyInLocalStorage: string = keyInLocalStorage;
-  task$!: BehaviorSubject<ITask>;
   isShowModalEditTask: boolean = false;
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.idURL = params.get('id') as string;
-      this.task = this.tasksService.getDataById(this.idURL) as ITask;
-      this.task$ = new BehaviorSubject(this.task);
+      const task = this.tasksService.getDataById(this.idURL) as ITask;
+      this.task$ = new BehaviorSubject(task);
       this.valueSelect = this.task$.value.status as string;
     });
   }
@@ -49,7 +48,7 @@ export class BacklogSettingsComponent implements OnInit {
       .pipe(map((t) => (t.status = this.valueSelect as TStatus)))
       .subscribe();
     this.tasksService.saveInLocalStorage(this.keyInLocalStorage);
-    console.log(this.task);
+    console.log(this.task$.value);
   }
 
   onDeleteTask(id: string) {

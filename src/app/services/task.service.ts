@@ -1,4 +1,5 @@
 import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ITask, keyInLocalStorage } from '../interface/task.interface';
 import { LocalstorageService } from './localstorage.service';
 
@@ -7,34 +8,42 @@ import { LocalstorageService } from './localstorage.service';
 })
 export class taskService {
   private LocalStorageService = inject(LocalstorageService);
-  private tasks: ITask[] = [];
+  private tasks$: BehaviorSubject<ITask[]>;
   private key: string = keyInLocalStorage;
 
   constructor() {
-    this.tasks = this.LocalStorageService.getLocalStorage(this.key) || [];
+    const tasksLocalStorage =
+      this.LocalStorageService.getLocalStorage(this.key) || [];
+    this.tasks$ = new BehaviorSubject<ITask[]>(tasksLocalStorage);
   }
 
-  getData() {
-    return this.tasks;
+  getData(): Observable<ITask[]> {
+    return this.tasks$.asObservable();
   }
 
-  addData(task: ITask) {
-    this.tasks.push(task);
+  addData(task: ITask): void {
+    const currentTasks = this.tasks$.value;
+    currentTasks.push(task);
+    this.tasks$.next(currentTasks);
   }
 
-  deleteData(id: string) {
-    this.tasks = this.tasks.filter((task) => task.id !== id);
+  deleteData(id: string): void {
+    const currentTasks = this.tasks$.value;
+    const filtered = currentTasks.filter((task) => task.id !== id);
+    this.tasks$.next(filtered);
   }
 
-  saveInLocalStorage(key: string) {
-    this.LocalStorageService.setLocalStorage(key, this.tasks);
+  saveInLocalStorage(key: string): void {
+    this.LocalStorageService.setLocalStorage(key, this.tasks$.value);
   }
 
-  getDataByIndex(index: number) {
-    return this.tasks[index];
+  getDataByIndex(index: number): ITask {
+    const currentTasks = this.tasks$.value;
+    return currentTasks[index];
   }
 
-  getDataById(id: string) {
-    return this.tasks.find((task) => task.id === id);
+  getDataById(id: string): ITask | undefined {
+    const currentTasks = this.tasks$.value;
+    return currentTasks.find((task) => task.id === id);
   }
 }

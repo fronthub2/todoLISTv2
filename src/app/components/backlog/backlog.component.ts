@@ -1,4 +1,4 @@
-import { Component, DoCheck, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   ActivatedRoute,
   Router,
@@ -6,6 +6,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ITask } from '../../interface/task.interface';
 import { taskService } from '../../services/task.service';
 import { TaskComponent } from '../task/task.component';
@@ -16,26 +17,19 @@ import { TaskComponent } from '../task/task.component';
   templateUrl: './backlog.component.html',
   styleUrl: './backlog.component.scss',
 })
-export class BacklogComponent implements OnInit, DoCheck {
+export class BacklogComponent implements OnInit {
   tasksService = inject(taskService);
   route = inject(ActivatedRoute);
   router = inject(Router);
+  tasks$: Observable<ITask[]> = this.tasksService.getData();
 
-  tasks: ITask[] = [];
+  tasks!: ITask[];
   id!: string;
 
   ngOnInit(): void {
-    this.tasks = this.tasksService.getData();
-    console.log('tasks', this.tasks);
+    this.tasks$.subscribe((task) => {
+      this.tasks = task;
+      console.log('this.tasks in backlog', this.tasks);
+    });
   }
-
-  ngDoCheck(): void {
-    this.tasks = this.tasksService.getData();
-  }
-
-  // goById(id: string) {
-  //   this.router.navigate([id], {
-  //     relativeTo: this.route,
-  //   });
-  // }
 }
