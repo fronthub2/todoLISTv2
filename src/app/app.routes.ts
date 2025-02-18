@@ -1,10 +1,4 @@
 import { Routes } from '@angular/router';
-import { BacklogSettingsComponent } from './components/backlog-settings/backlog-settings.component';
-import { BacklogComponent } from './components/backlog/backlog.component';
-import { BoardComponent } from './components/board/board.component';
-import { CreateTaskComponent } from './components/create-task/create-task.component';
-import { ModalEditTaskComponent } from './components/modal-edit-task/modal-edit-task.component';
-import { NotFoundPageComponent } from './shared/not-found-page/not-found-page.component';
 
 export const routes: Routes = [
   {
@@ -14,15 +8,26 @@ export const routes: Routes = [
   },
   {
     path: 'backlog',
-    component: BacklogComponent,
+    title: 'Backlog',
+    loadComponent: () =>
+      import('./components/backlog/backlog.component').then(
+        (mod) => mod.BacklogComponent
+      ),
     children: [
       {
         path: ':id',
-        component: BacklogSettingsComponent,
+        title: 'Backlog settings',
+        loadComponent: () =>
+          import(
+            './components/backlog-settings/backlog-settings.component'
+          ).then((mod) => mod.BacklogSettingsComponent),
         children: [
           {
             path: 'modal-edit-task',
-            component: ModalEditTaskComponent,
+            loadComponent: () =>
+              import(
+                './components/modal-edit-task/modal-edit-task.component'
+              ).then((mod) => mod.ModalEditTaskComponent),
             outlet: 'modal',
           },
         ],
@@ -31,7 +36,11 @@ export const routes: Routes = [
   },
   {
     path: 'board',
-    component: BoardComponent,
+    title: 'Board',
+    loadComponent: () =>
+      import('./components/board/board.component').then(
+        (mod) => mod.BoardComponent
+      ),
     children: [
       {
         path: 'board-task',
@@ -41,11 +50,18 @@ export const routes: Routes = [
   },
   {
     path: 'createTask',
-    component: CreateTaskComponent,
+    title: 'Create task',
+    loadComponent: () =>
+      import('./components/create-task/create-task.component').then(
+        (mod) => mod.CreateTaskComponent
+      ),
   },
   {
     path: '404',
-    component: NotFoundPageComponent,
+    loadComponent: () =>
+      import('./shared/not-found-page/not-found-page.component').then(
+        (mod) => mod.NotFoundPageComponent
+      ),
   },
   {
     path: '**',

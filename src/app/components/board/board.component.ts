@@ -11,7 +11,7 @@ import { TaskComponent } from '../task/task.component';
   styleUrl: './board.component.scss',
 })
 export class BoardComponent implements OnInit {
-  taskService = inject(taskService);
+  private taskService = inject(taskService);
   tasks$: Observable<ITask[]> = this.taskService.getData();
   tasks!: ITask[];
   tasks_paused!: ITask[];

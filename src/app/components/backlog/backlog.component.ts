@@ -18,9 +18,9 @@ import { TaskComponent } from '../task/task.component';
   styleUrl: './backlog.component.scss',
 })
 export class BacklogComponent implements OnInit {
-  tasksService = inject(taskService);
-  route = inject(ActivatedRoute);
-  router = inject(Router);
+  private tasksService = inject(taskService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   tasks$: Observable<ITask[]> = this.tasksService.getData();
 
   tasks!: ITask[];

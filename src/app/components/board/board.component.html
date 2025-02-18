@@ -3,9 +3,6 @@
     PAUSED
     <span class="task__count">({{ tasks_paused.length }})</span>
   </h4>
-  <!-- @for (task of tasks$ | async; track task; let index = $index) {
-  <app-task [titleTooltip]="'Перейти в настройки'" [count]="index" [title]="task.text" [id]="task.id"></app-task>
-  } -->
   @for (task of tasks_paused; track task; let index = $index) {
   <app-task
     [titleTooltip]="'Перейти в настройки'"

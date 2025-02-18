@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { BehaviorSubject } from 'rxjs';
 import { ITask } from '../../interface/task.interface';
 import { taskService } from '../../services/task.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-modal-edit-task',
@@ -22,7 +22,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ModalEditTaskComponent implements OnInit {
   @Input() task$!: BehaviorSubject<ITask>;
   @Output() isShowModalEditTask = new EventEmitter<boolean>();
-  taskService = inject(taskService);
+  private taskService = inject(taskService);
   text!: string;
   description!: string | null;
 

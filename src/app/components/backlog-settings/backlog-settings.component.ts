@@ -24,9 +24,9 @@ import { ModalEditTaskComponent } from '../modal-edit-task/modal-edit-task.compo
   styleUrl: './backlog-settings.component.scss',
 })
 export class BacklogSettingsComponent implements OnInit {
-  route = inject(ActivatedRoute);
-  router = inject(Router);
-  tasksService = inject(taskService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private tasksService = inject(taskService);
 
   task$!: BehaviorSubject<ITask>;
   idURL!: string;
