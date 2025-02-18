@@ -1,0 +1,72 @@
+:host {
+  position: fixed;
+  inset: 0;
+  background-color: rgba($color: black, $alpha: 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #000;
+
+  .modal {
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-color: white;
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    &__input,
+    &__textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+
+      &:focus-visible {
+        outline: none;
+      }
+    }
+
+    &__textarea {
+      resize: vertical;
+      min-height: 100px;
+      max-height: 200px;
+    }
+
+    &__button {
+      padding: 10px 0;
+      width: 100%;
+      font-size: 20px;
+      background-color: transparent;
+      border: 1px solid black;
+      cursor: pointer;
+
+      &--edit {
+        transition: 350ms;
+
+        &:hover {
+          background-color: rgba(255, 0, 0, 0.669);
+          transition: 350ms;
+        }
+      }
+      &--cancel {
+        transition: 350ms;
+
+        &:hover {
+          background-color: rgba(0, 128, 0, 0.669);
+          transition: 350ms;
+        }
+      }
+    }
+  }
+
+  .error {
+    border: 2px solid red;
+  }
+}

@@ -3,13 +3,16 @@
     background-color: #27242f;
     padding: 25px;
     border-radius: 10px;
-    
   }
 
   .task-info {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    &__item {
+      word-wrap: break-word;
+    }
   }
 
   .task-settings {
@@ -30,6 +33,8 @@
       width: 100%;
       padding: 10px;
       cursor: pointer;
+      box-sizing: border-box;
+      text-align: center;
 
       &--edit {
         background-color: #6500bd;

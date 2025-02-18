@@ -3,6 +3,7 @@ import { BacklogSettingsComponent } from './components/backlog-settings/backlog-
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { BoardComponent } from './components/board/board.component';
 import { CreateTaskComponent } from './components/create-task/create-task.component';
+import { ModalEditTaskComponent } from './components/modal-edit-task/modal-edit-task.component';
 import { NotFoundPageComponent } from './shared/not-found-page/not-found-page.component';
 
 export const routes: Routes = [
@@ -18,6 +19,13 @@ export const routes: Routes = [
       {
         path: ':id',
         component: BacklogSettingsComponent,
+        children: [
+          {
+            path: 'modal-edit-task',
+            component: ModalEditTaskComponent,
+            outlet: 'modal',
+          },
+        ],
       },
     ],
   },

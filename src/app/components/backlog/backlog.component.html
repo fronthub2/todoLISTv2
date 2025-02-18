@@ -1,7 +1,9 @@
 <div class="wrapper">
   <div class="wrapper__tasks">
-    @if (tasks.length > 0) { @for (task of tasks; track task; let index =
-    $index) {
+    @if (tasks.length > 0) {
+    <h4>TASKS</h4>
+
+    @for (task of tasks; track task; let index = $index) {
     <app-task
       [id]="task.id"
       [count]="tasks.length"

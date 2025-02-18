@@ -20,7 +20,7 @@
       <button
         class="task-settings__button task-settings__button--edit"
         matTooltip="Изменить"
-        (click)="onEditTask(task.id)"
+        (click)="onEditTask(task)"
       >
         Edit
       </button>
@@ -44,3 +44,9 @@
     </div>
   </div>
 </div>
+@if (isShowModalEditTask) {
+<app-modal-edit-task
+  [task]="task"
+  (isShowModalEditTask)="isShow($event)"
+></app-modal-edit-task>
+}

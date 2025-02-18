@@ -27,15 +27,19 @@ export class CreateTaskComponent implements DoCheck {
   keyInLocalStorage: string = keyInLocalStorage;
   labelTextInput: string = 'Write text';
   labelTextTextarea: string = 'Write description';
-  titleTooltip: 'Добавить' | 'Изменить' | 'Нельзя добавить' = 'Нельзя добавить';
+  titleTooltip: 'Добавить' | 'Нельзя добавить' = 'Нельзя добавить';
 
   ngDoCheck() {
     this.sendTitleTooltip();
   }
-  
+
   form = new FormGroup({
-    text: new FormControl('', [Validators.required, minLength()]),
-    description: new FormControl(''),
+    text: new FormControl(this.text, [
+      Validators.required,
+      minLength(),
+      Validators.maxLength(20),
+    ]),
+    description: new FormControl(this.description),
     status: new FormControl('Paused'),
   });
 

@@ -1,1 +1,29 @@
-<p>modal-edit-task works!</p>
+<form #form="ngForm" class="modal__wrapper" (ngSubmit)="onEditTask()">
+  <span class="modal__label" for="input">Edit text</span>
+  <input
+    class="modal__input"
+    type="text"
+    name="input"
+    [(ngModel)]="text"
+    required
+    [ngClass]="{
+      error: getValid()
+    }"
+  />
+  <span class="modal__label" for="textarea">Edit textarea</span>
+  <textarea
+    class="modal__textarea"
+    name="textarea"
+    [(ngModel)]="description"
+  ></textarea>
+  <button
+    class="modal__button modal__button--edit"
+    [disabled]="getValid()"
+    (click)="onEditTask()"
+  >
+    Edit
+  </button>
+  <button class="modal__button modal__button--cancel" (click)="onCloseModal()">
+    Cancel
+  </button>
+</form>

@@ -43,6 +43,16 @@ export class BoardComponent implements OnInit {
         })
       )
       .subscribe();
+    this.tasks$
+      .pipe(
+        map((tasks) => tasks.filter((task) => task.status === 'Paused')),
+        tap((value) => {
+          this.tasks_paused = value;
+          console.log('value3', value);
+          console.log('tasks_paused', this.tasks_paused);
+        })
+      )
+      .subscribe();
 
     this.tasks = this.taskService.getData();
   }
