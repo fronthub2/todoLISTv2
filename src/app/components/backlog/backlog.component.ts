@@ -32,9 +32,9 @@ export class BacklogComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
 
   tasks$!: Observable<ITask[]>;
-  checkboxToggle$ = new Subject<void>();
-  litterToogle$ = new Subject<void>();
-  selectedId$: Subject<string> = new Subject<string>();
+  checkboxToggleSubject = new Subject<void>();
+  litterToogleSubject = new Subject<void>();
+  selectedIdSubject: Subject<string> = new Subject<string>();
   subscriptions: Subscription = new Subscription();
 
   tasks!: ITask[];
@@ -55,7 +55,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.litterToogle$
+      this.litterToogleSubject
         .pipe(
           tap(() => {
             this.isShowLitterIcon =
@@ -66,21 +66,21 @@ export class BacklogComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.checkboxToggle$
+      this.checkboxToggleSubject
         .pipe(
           tap(() => {
             this.isShowCheckbox = !this.isShowCheckbox;
             this.isShowCheckbox
               ? (this.titleCheckTooltip = 'Закрыть выделение')
               : (this.titleCheckTooltip = 'Открыть выделение');
-            this.litterToogle$.next();
+            this.litterToogleSubject.next();
           })
         )
         .subscribe()
     );
 
     this.subscriptions.add(
-      this.selectedId$
+      this.selectedIdSubject
         .pipe(
           tap((id) => {
             this.isShowLitterIcon = true;
@@ -89,7 +89,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
             } else {
               this.selectedId.push(id);
             }
-            this.litterToogle$.next();
+            this.litterToogleSubject.next();
           })
         )
         .subscribe()
@@ -102,17 +102,17 @@ export class BacklogComponent implements OnInit, OnDestroy {
   }
 
   onCheckActivation() {
-    this.checkboxToggle$.next();
+    this.checkboxToggleSubject.next();
   }
 
   onSendSelectedById(id: string) {
-    this.selectedId$.next(id);
+    this.selectedIdSubject.next(id);
   }
 
   onDeleteByLitter() {
     this.selectedId.forEach((id) => this.tasksService.deleteData(id));
     this.selectedId = [];
-    this.checkboxToggle$.next();
+    this.checkboxToggleSubject.next();
     this.tasksService.saveInLocalStorage(this.keyInLocalStorage);
 
     this.router.navigate(['/backlog'], {
