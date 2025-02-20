@@ -15,6 +15,9 @@ export const routes: Routes = [
   {
     path: 'backlog',
     component: BacklogComponent,
+    data: {
+      title: 'Backlog',
+    },
     children: [
       {
         path: ':id',
@@ -32,6 +35,9 @@ export const routes: Routes = [
   {
     path: 'board',
     component: BoardComponent,
+    data: {
+      title: 'Board',
+    },
     children: [
       {
         path: 'board-task',
@@ -42,6 +48,9 @@ export const routes: Routes = [
   {
     path: 'createTask',
     component: CreateTaskComponent,
+    data: {
+      title: 'Create task',
+    },
   },
   {
     path: '404',

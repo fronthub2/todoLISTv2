@@ -1,5 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import {
   ActivatedRoute,
   Router,
@@ -8,7 +9,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { Observable, Subject, Subscription, tap } from 'rxjs';
-import { ITask } from '../../interface/task.interface';
+import { ITask, keyInLocalStorage } from '../../interface/task.interface';
 import { taskService } from '../../services/task.service';
 import { TaskComponent } from '../task/task.component';
 
@@ -20,6 +21,7 @@ import { TaskComponent } from '../task/task.component';
     RouterLinkActive,
     TaskComponent,
     MatCheckboxModule,
+    MatTooltipModule,
   ],
   templateUrl: './backlog.component.html',
   styleUrl: './backlog.component.scss',
@@ -31,27 +33,47 @@ export class BacklogComponent implements OnInit, OnDestroy {
 
   tasks$!: Observable<ITask[]>;
   checkboxToggle$ = new Subject<void>();
+  litterToogle$ = new Subject<void>();
   selectedId$: Subject<string> = new Subject<string>();
   subscriptions: Subscription = new Subscription();
 
   tasks!: ITask[];
   selectedId: string[] = [];
   isShowCheckbox: boolean = false;
-  isShowCheckIcon: boolean = false;
+  isShowLitterIcon: boolean = false;
+  titleCheckTooltip: 'Открыть выделение' | 'Закрыть выделение' =
+    'Открыть выделение';
+  keyInLocalStorage: string = keyInLocalStorage;
 
   ngOnInit(): void {
     this.tasks$ = this.tasksService.getData();
-    this.tasks$.subscribe((tasks) => {
-      this.tasks = tasks;
-    });
+
+    this.subscriptions.add(
+      this.tasks$.subscribe((tasks) => {
+        this.tasks = tasks;
+      })
+    );
+
+    this.subscriptions.add(
+      this.litterToogle$
+        .pipe(
+          tap(() => {
+            this.isShowLitterIcon =
+              this.isShowCheckbox && this.selectedId.length > 0;
+          })
+        )
+        .subscribe()
+    );
 
     this.subscriptions.add(
       this.checkboxToggle$
         .pipe(
           tap(() => {
             this.isShowCheckbox = !this.isShowCheckbox;
-            this.isShowCheckIcon =
-              this.isShowCheckbox && this.selectedId.length > 0;
+            this.isShowCheckbox
+              ? (this.titleCheckTooltip = 'Закрыть выделение')
+              : (this.titleCheckTooltip = 'Открыть выделение');
+            this.litterToogle$.next();
           })
         )
         .subscribe()
@@ -61,12 +83,13 @@ export class BacklogComponent implements OnInit, OnDestroy {
       this.selectedId$
         .pipe(
           tap((id) => {
-            this.isShowCheckIcon = true;
+            this.isShowLitterIcon = true;
             if (this.selectedId.includes(id)) {
               this.selectedId = this.selectedId.filter((ID) => ID !== id);
             } else {
               this.selectedId.push(id);
             }
+            this.litterToogle$.next();
           })
         )
         .subscribe()
@@ -75,9 +98,10 @@ export class BacklogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+    console.log('отписка in backlog');
   }
 
-  onEnableLitter() {
+  onCheckActivation() {
     this.checkboxToggle$.next();
   }
 
@@ -85,10 +109,11 @@ export class BacklogComponent implements OnInit, OnDestroy {
     this.selectedId$.next(id);
   }
 
-  onDeleteByCheckIcon() {
+  onDeleteByLitter() {
     this.selectedId.forEach((id) => this.tasksService.deleteData(id));
     this.selectedId = [];
     this.checkboxToggle$.next();
+    this.tasksService.saveInLocalStorage(this.keyInLocalStorage);
 
     this.router.navigate(['/backlog'], {
       relativeTo: this.route,

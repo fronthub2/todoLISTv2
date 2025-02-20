@@ -22,7 +22,9 @@ import { taskService } from '../../services/task.service';
 export class ModalEditTaskComponent implements OnInit {
   @Input() tasksSubject!: BehaviorSubject<ITask>;
   @Output() isShowModalEditTask = new EventEmitter<boolean>();
-  taskService = inject(taskService);
+  
+  private taskService = inject(taskService);
+
   text!: string;
   description!: string | null;
 
