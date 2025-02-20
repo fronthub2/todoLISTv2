@@ -2,7 +2,7 @@ import { TitleCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BehaviorSubject, map } from 'rxjs';
 import {
   ITask,
@@ -19,6 +19,7 @@ import { ModalEditTaskComponent } from '../modal-edit-task/modal-edit-task.compo
     FormsModule,
     MatTooltipModule,
     ModalEditTaskComponent,
+    RouterLink,
   ],
   templateUrl: './backlog-settings.component.html',
   styleUrl: './backlog-settings.component.scss',
@@ -28,7 +29,7 @@ export class BacklogSettingsComponent implements OnInit {
   router = inject(Router);
   tasksService = inject(taskService);
 
-  task$!: BehaviorSubject<ITask>;
+  tasksSubject!: BehaviorSubject<ITask>;
   idURL!: string;
   valueSelect: string = 'Paused';
   keyInLocalStorage: string = keyInLocalStorage;
@@ -38,17 +39,17 @@ export class BacklogSettingsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.idURL = params.get('id') as string;
       const task = this.tasksService.getDataById(this.idURL) as ITask;
-      this.task$ = new BehaviorSubject(task);
-      this.valueSelect = this.task$.value.status as string;
+      this.tasksSubject = new BehaviorSubject(task);
+      this.valueSelect = this.tasksSubject.value.status as string;
     });
   }
 
   onChangeSelect() {
-    this.task$
+    this.tasksSubject
       .pipe(map((t) => (t.status = this.valueSelect as TStatus)))
       .subscribe();
     this.tasksService.saveInLocalStorage(this.keyInLocalStorage);
-    console.log(this.task$.value);
+    console.log(this.tasksSubject.value);
   }
 
   onDeleteTask(id: string) {

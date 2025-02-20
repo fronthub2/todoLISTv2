@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { ToastService } from '../../services/toast.service';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-toast',
@@ -8,11 +7,4 @@ import { ToastService } from '../../services/toast.service';
   styleUrl: './toast.component.scss',
 })
 export class ToastComponent {
-  private toastService = inject(ToastService);
-
-  title: string = '';
-
-  constructor() {
-    this.title = this.toastService.getTitle();
-  }
 }

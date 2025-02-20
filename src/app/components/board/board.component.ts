@@ -12,13 +12,14 @@ import { TaskComponent } from '../task/task.component';
 })
 export class BoardComponent implements OnInit {
   taskService = inject(taskService);
-  tasks$: Observable<ITask[]> = this.taskService.getData();
+  tasks$!: Observable<ITask[]>;
   tasks!: ITask[];
   tasks_paused!: ITask[];
   tasks_progress!: ITask[];
   tasks_completed!: ITask[];
 
   ngOnInit(): void {
+    this.tasks$ = this.taskService.getData();
     this.tasks$.subscribe((taskAll) => {
       this.tasks = taskAll;
 

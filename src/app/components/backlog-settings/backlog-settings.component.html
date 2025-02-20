@@ -1,17 +1,18 @@
 <div class="wrapper">
   <div class="task-info">
+    <a routerLink=".." class="task-info__close">X</a>
     <h4 class="task-info__title">Information:</h4>
     <div class="task-info__item">
       <span class="task-info__label">Text: </span>
-      {{ task$.getValue().text | titlecase }}
+      {{ tasksSubject.getValue().text | titlecase }}
     </div>
     <div class="task-info__item">
       <span class="task-info__label">Description: </span>
-      {{ (task$.getValue().description | titlecase) || "Не добавлено" }}
+      {{ (tasksSubject.getValue().description | titlecase) || "Не добавлено" }}
     </div>
     <div class="task-info__item">
       <span class="task-info__label">Status: </span>
-      {{ task$.getValue().status || "Paused" }}
+      {{ tasksSubject.getValue().status || "Paused" }}
     </div>
   </div>
   <div class="task-settings">
@@ -27,7 +28,7 @@
       <button
         class="task-settings__button task-settings__button--delete"
         matTooltip="Удалить"
-        (click)="onDeleteTask(task$.getValue().id)"
+        (click)="onDeleteTask(tasksSubject.getValue().id)"
       >
         Delete
       </button>
@@ -46,7 +47,7 @@
 </div>
 @if (isShowModalEditTask) {
 <app-modal-edit-task
-  [task$]="task$"
+  [tasksSubject]="tasksSubject"
   (isShowModalEditTask)="onShowModalEditTask($event)"
 ></app-modal-edit-task>
 }

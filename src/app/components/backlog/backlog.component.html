@@ -1,9 +1,30 @@
 <div class="wrapper">
   <div class="wrapper__tasks">
     @if (tasks.length > 0) {
-    <h4>TASKS</h4>
-
-    @for (task of tasks; track task; let index = $index) {
+    <div class="wrapper__tasks--header">
+      <h4 class="wrapper__tasks--title">TASKS</h4>
+      <button
+        class="wrapper__tasks--btn wrapper__tasks--litter"
+        (click)="onEnableLitter()"
+      >
+        <img src="{{ 'assets/icon/icon-litter.png' }}" alt="icon-litter" />
+      </button>
+      @if (isShowCheckIcon) {
+      <button
+        class="wrapper__tasks--btn wrapper__tasks--check"
+        (click)="onDeleteByCheckIcon()"
+      >
+        <img src="{{ 'assets/icon/icon-check.png' }}" alt="icon-check" />
+      </button>
+      }
+    </div>
+    @for (task of tasks; track task; let index = $index) { @if (isShowCheckbox)
+    {
+    <mat-checkbox
+      (change)="onSendSelectedById(task.id)"
+      [checked]="selectedId.includes(task.id)"
+    ></mat-checkbox>
+    }
     <app-task
       [id]="task.id"
       [count]="tasks.length"
@@ -11,7 +32,8 @@
       [titleTooltip]="'Открыть настройки'"
       [routerLink]="['/backlog', task.id]"
       routerLinkActive="active"
-    ></app-task>
+    >
+    </app-task>
     }} @else {
     <div>Вы не добавили заметки</div>
     <a class="wrapper__task--goCreateTaskLink" routerLink="/createTask"

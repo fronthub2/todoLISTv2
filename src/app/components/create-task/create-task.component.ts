@@ -29,6 +29,8 @@ export class CreateTaskComponent implements DoCheck {
   labelTextTextarea: string = 'Write description';
   titleTooltip: 'Добавить' | 'Нельзя добавить' = 'Нельзя добавить';
 
+  constructor() {}
+
   ngDoCheck() {
     this.sendTitleTooltip();
   }
