@@ -59,8 +59,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
       this.litterToogleSubject
         .pipe(
           tap(() => {
-            this.isShowLitterIcon =
-              this.isShowCheckbox && this.selectedId.length > 0;
+            this.isShowLitterIcon = this.isShowCheckbox && this.selectedId.length > 0;
           })
         ).subscribe()
     );
@@ -70,9 +69,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
         .pipe(
           tap(() => {
             this.isShowCheckbox = !this.isShowCheckbox;
-            this.isShowCheckbox
-              ? (this.titleCheckTooltip = 'Закрыть выделение')
-              : (this.titleCheckTooltip = 'Открыть выделение');
+            this.isShowCheckbox ? (this.titleCheckTooltip = 'Закрыть выделение') : (this.titleCheckTooltip = 'Открыть выделение');
             this.litterToogleSubject.next();
           })
         ).subscribe()
