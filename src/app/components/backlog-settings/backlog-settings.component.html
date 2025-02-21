@@ -4,15 +4,15 @@
     <h4 class="task-info__title">Information:</h4>
     <div class="task-info__item">
       <span class="task-info__label">Text: </span>
-      {{ tasksSubject.getValue().text | titlecase }}
+      {{ task.text | titlecase }}
     </div>
     <div class="task-info__item">
       <span class="task-info__label">Description: </span>
-      {{ (tasksSubject.getValue().description | titlecase) || "Не добавлено" }}
+      {{ (task.description | titlecase) || "Не добавлено" }}
     </div>
     <div class="task-info__item">
       <span class="task-info__label">Status: </span>
-      {{ tasksSubject.getValue().status || "Paused" }}
+      {{ task.status || "Paused" }}
     </div>
   </div>
   <div class="task-settings">
@@ -28,7 +28,7 @@
       <button
         class="task-settings__button task-settings__button--delete"
         matTooltip="Удалить"
-        (click)="onDeleteTask(tasksSubject.getValue().id)"
+        (click)="onDeleteTask(task.id)"
       >
         Delete
       </button>
@@ -47,7 +47,7 @@
 </div>
 @if (isShowModalEditTask) {
 <app-modal-edit-task
-  [tasksSubject]="tasksSubject"
+  [taskSubject]="taskSubject"
   (isShowModalEditTask)="onShowModalEditTask($event)"
 ></app-modal-edit-task>
 }

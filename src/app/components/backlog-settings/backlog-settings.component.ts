@@ -29,38 +29,38 @@ export class BacklogSettingsComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private tasksService = inject(taskService);
 
-  tasksSubject!: BehaviorSubject<ITask>;
-  subscriptions: Subscription = new Subscription();
-
-  idURL!: string;
+  task!: ITask;
+  taskSubject: BehaviorSubject<ITask> = new BehaviorSubject(this.task);
+  subscriptions: Subscription = new Subscription(); // поток данных, который позволит управлять подписками.
+  
   valueSelect: string = 'Paused';
   keyInLocalStorage: string = keyInLocalStorage;
   isShowModalEditTask: boolean = false;
 
   ngOnInit(): void {
-    this.subscriptions.add(
-      this.route.paramMap.subscribe((params) => {
-        this.idURL = params.get('id') as string;
-        const task = this.tasksService.getDataById(this.idURL) as ITask;
-        this.tasksSubject = new BehaviorSubject(task);
-        this.valueSelect = this.tasksSubject.value.status as string;
+    this.subscriptions.add( // добавляем в поток
+      this.route.paramMap.subscribe((params) => { // подписываемся
+        const id  = params.get('id') as string; // получаем id
+        this.task = this.tasksService.getDataById(id) as ITask;
+        this.valueSelect = this.task.status;
+        this.taskSubject.next(this.task); // уведомляем поток
       })
     );
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    this.subscriptions.unsubscribe(); // отписываемся от всех подписчиков
     console.log('отписка in backlog-setting');
   }
 
   onChangeSelect() {
     this.subscriptions.add(
-      this.tasksSubject
-        .pipe(map((t) => (t.status = this.valueSelect as TStatus)))
+      this.taskSubject
+        .pipe(map((t) => (t.status = this.valueSelect as TStatus))) // изменяем статус
         .subscribe()
     );
     this.tasksService.saveInLocalStorage(this.keyInLocalStorage);
-    console.log(this.tasksSubject.value);
+    console.log(this.taskSubject.value);
   }
 
   onDeleteTask(id: string) {

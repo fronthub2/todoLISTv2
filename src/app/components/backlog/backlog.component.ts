@@ -13,6 +13,8 @@ import { ITask, keyInLocalStorage } from '../../interface/task.interface';
 import { taskService } from '../../services/task.service';
 import { TaskComponent } from '../task/task.component';
 
+export type TypeTitleCheck = 'Открыть выделение' | 'Закрыть выделение';
+
 @Component({
   selector: 'app-backlog',
   imports: [
@@ -38,11 +40,10 @@ export class BacklogComponent implements OnInit, OnDestroy {
   subscriptions: Subscription = new Subscription();
 
   tasks!: ITask[];
-  selectedId: string[] = [];
-  isShowCheckbox: boolean = false;
-  isShowLitterIcon: boolean = false;
-  titleCheckTooltip: 'Открыть выделение' | 'Закрыть выделение' =
-    'Открыть выделение';
+  selectedId: string[] = []; // хранение выбранных тасок
+  isShowCheckbox: boolean = false; // видимость чекбоксов
+  isShowLitterIcon: boolean = false; // видимость иконки мусорки
+  titleCheckTooltip: TypeTitleCheck = 'Открыть выделение';
   keyInLocalStorage: string = keyInLocalStorage;
 
   ngOnInit(): void {
@@ -61,8 +62,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
             this.isShowLitterIcon =
               this.isShowCheckbox && this.selectedId.length > 0;
           })
-        )
-        .subscribe()
+        ).subscribe()
     );
 
     this.subscriptions.add(
@@ -75,8 +75,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
               : (this.titleCheckTooltip = 'Открыть выделение');
             this.litterToogleSubject.next();
           })
-        )
-        .subscribe()
+        ).subscribe()
     );
 
     this.subscriptions.add(
@@ -91,8 +90,7 @@ export class BacklogComponent implements OnInit, OnDestroy {
             }
             this.litterToogleSubject.next();
           })
-        )
-        .subscribe()
+        ).subscribe()
     );
   }
 

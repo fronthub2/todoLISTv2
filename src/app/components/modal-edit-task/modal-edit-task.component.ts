@@ -20,7 +20,7 @@ import { taskService } from '../../services/task.service';
   styleUrl: './modal-edit-task.component.scss',
 })
 export class ModalEditTaskComponent implements OnInit {
-  @Input() tasksSubject!: BehaviorSubject<ITask>;
+  @Input() taskSubject!: BehaviorSubject<ITask>;
   @Output() isShowModalEditTask = new EventEmitter<boolean>();
   
   private taskService = inject(taskService);
@@ -29,13 +29,13 @@ export class ModalEditTaskComponent implements OnInit {
   description!: string | null;
 
   ngOnInit(): void {
-    const task = this.tasksSubject.value;
+    const task = this.taskSubject.value;
     this.text = task.text;
     this.description = task.description;
   }
 
   onEditTask() {
-    const task = this.tasksSubject.value;
+    const task = this.taskSubject.value;
     if (!this.getValid()) {
       task.text = this.text;
       task.description = this.description;
